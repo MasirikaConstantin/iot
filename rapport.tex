@@ -1,23 +1,19 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{charter}
-\usepackage[scaled=0.96]{helvet}
-\usepackage[a4paper,margin=2.3cm,headheight=15pt,footskip=1.05cm]{geometry}
+\usepackage{mathptmx}
+\usepackage[a4paper,margin=2.5cm]{geometry}
 \usepackage{setspace}
 \usepackage{microtype}
 \usepackage[french]{babel}
 \usepackage{csquotes}
-\usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
-\usepackage{tcolorbox}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,babel}
 \usepackage{etoolbox}
-\usepackage{fancyhdr}
 \usepackage[nobottomtitles*]{titlesec}
 \renewcommand{\bottomtitlespace}{5\baselineskip}
 \usepackage{caption}
@@ -27,115 +23,84 @@
 \setlength{\@fpbot}{0pt plus 1fil}
 \makeatother
 \usepackage{xurl}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 
-\definecolor{river}{RGB}{16,68,102}
-\definecolor{clay}{RGB}{132,72,36}
-\definecolor{ink}{RGB}{32,36,40}
-
-\setstretch{1.12}
-\setlength{\parindent}{1.15em}
+\onehalfspacing
+\setlength{\parindent}{1.25em}
 \setlength{\parskip}{0pt}
 
-\captionsetup{font=small,labelfont={bf,sf},skip=8pt,justification=raggedright,singlelinecheck=false}
-\tcbset{arc=1.2pt,boxrule=0.6pt,left=8pt,right=8pt,top=6pt,bottom=6pt}
-
-\titleformat{\section}
-  {\Large\sffamily\bfseries\color{river}}
-  {\thesection}{0.7em}{}
-  [\vspace{-0.4em}{\color{river!35}\titlerule[0.6pt]}]
-\titlespacing*{\section}{0pt}{1.35em}{0.75em}
-
-\titleformat{\subsection}
-  {\large\sffamily\bfseries\color{river!88!black}}
-  {\thesubsection}{0.65em}{}
-\titlespacing*{\subsection}{0pt}{1.05em}{0.4em}
-
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\sffamily\color{river!75!black}Alerte de proximité à Kinshasa}
-\fancyhead[R]{\small\sffamily\color{river!75!black}IoT\ /\ Master 1}
-\fancyfoot[C]{\small\sffamily\color{river!75!black}\thepage}
-\renewcommand{\headrule}{{\color{river!35}\hrule width\headwidth height 0.45pt \vskip-\headrulewidth}}
-\fancypagestyle{plain}{%
-  \fancyhf{}%
-  \fancyfoot[C]{\small\sffamily\color{river!75!black}\thepage}%
-  \renewcommand{\headrulewidth}{0pt}%
-  \renewcommand{\headrule}{}%
-}
+\captionsetup{font=small,labelfont=bf,skip=6pt}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.7em}
+\titlespacing*{\subsection}{0pt}{1.1em}{0.4em}
 
 \hypersetup{
   pdftitle={Alerte de proximité avant la crue à Kinshasa},
-  pdfauthor={},
-  colorlinks=true,
-  linkcolor=river,
-  urlcolor=river,
-  citecolor=river
+  pdfauthor={}
 }
 
-\AtBeginDocument{\color{ink}}
 \AtBeginEnvironment{tikzpicture}{\shorthandoff{:;!?}}
+\tikzset{
+  box/.style={draw=black, fill=white, align=center, inner sep=4pt, font=\footnotesize},
+  arr/.style={draw=black, line width=0.6pt, -{Stealth[length=2mm]}}
+}
 
 \begin{document}
 
 \begin{titlepage}
 \hypersetup{pageanchor=false}
 \thispagestyle{empty}
-\begin{tikzpicture}[remember picture,overlay]
-  \fill[river] (current page.north west) rectangle ([yshift=-1.15cm]current page.north east);
-  \fill[clay] ([yshift=-1.15cm]current page.north west) rectangle ([yshift=-1.32cm]current page.north east);
-  \fill[river] (current page.south west) rectangle ([yshift=0.55cm]current page.south east);
-\end{tikzpicture}
-
-\vspace*{1.5cm}
-{\sffamily\color{river}\small UNIVERSITÉ DE KINSHASA\par}
+\centering
+\vspace*{1.6cm}
+{\large\bfseries UNIVERSITÉ DE KINSHASA\par}
+\vspace{0.7em}
+Mention Mathématiques, Statistique et Informatique\par
 \vspace{0.35em}
-{\sffamily\bfseries\color{ink} Mention Mathématiques, Statistique et Informatique\par}
-\vspace{0.25em}
-{\color{ink!80}Master 1 --- Data Science et intelligence artificielle\par}
-
-\vspace{1.5em}
-{\sffamily\small\color{clay} Travail pratique de récupération\par}
-\vspace{0.2em}
-{\sffamily\color{river} Internet des objets\par}
-
-\vspace{1.7em}
-\noindent{\color{river!40}\rule{\textwidth}{0.6pt}\par}
-\vspace{1.15em}
-{\sffamily\bfseries\LARGE\color{river} Alerte de proximité avant la crue\par}
-\vspace{0.7em}
-{\large Une architecture IoT pour les quartiers riverains\\ de la Ndjili et du Pool Malebo, à Kinshasa\par}
-\vspace{1.05em}
-\noindent{\color{river!40}\rule{\textwidth}{0.6pt}\par}
-
-\vspace{1em}
-{\small Travail théorique. L'énoncé ne demande ni programme, ni simulation, ni prototype. Ce document n'en contient pas.\par}
-
-\vspace{2.2em}
-{\sffamily\bfseries\color{river} Étudiant\par}
-\vspace{0.7em}
-% Renseignez l'identité ici, puis recompilez.
-\renewcommand{\arraystretch}{1.35}
-\begin{tabular}{@{}p{3.4cm}p{10.2cm}@{}}
-Nom et post-nom & \hrulefill \\
-Prénom & \hrulefill \\
-Matricule & \hrulefill \\
-\end{tabular}
+Master 1 --- Data Science et intelligence artificielle\par
 
 \vspace{1.8em}
-{\sffamily\bfseries\color{river} Enseignant\par}
-\vspace{0.35em}
+Travail pratique de récupération\par
+\vspace{0.25em}
+Internet des objets\par
+
+\vspace{2.2em}
+\rule{0.72\textwidth}{0.4pt}\par
+\vspace{1.3em}
+{\Large\bfseries Alerte de proximité avant la crue\par}
+\vspace{0.9em}
+{\large Une architecture IoT pour les quartiers riverains\\[0.25em]
+de la Ndjili et du Pool Malebo, à Kinshasa\par}
+\vspace{1.2em}
+\rule{0.72\textwidth}{0.4pt}\par
+
+\vspace{1.3em}
+{\normalsize Travail théorique. L'énoncé ne demande ni programme,\\
+ni simulation, ni prototype.\par}
+
+\vspace{2.4em}
+{\bfseries Étudiant\par}
+\vspace{0.9em}
+% Renseignez l'identité ici, puis recompilez.
+\renewcommand{\arraystretch}{1.45}
+\begin{tabular}{@{}l@{\hspace{1.2em}}l@{}}
+Nom et post-nom & \rule{7.2cm}{0.4pt} \\
+Prénom & \rule{7.2cm}{0.4pt} \\
+Matricule & \rule{7.2cm}{0.4pt} \\
+\end{tabular}
+
+\vspace{2em}
+{\bfseries Enseignant\par}
+\vspace{0.45em}
 Michel Tshimanga
 
 \vfill
-{\small\color{ink!75} Octobre 2026\par}
-\vspace{0.8cm}
+Octobre 2026
+\vspace{1.2cm}
 \end{titlepage}
 
 \hypersetup{pageanchor=true}
 \tableofcontents
-\vspace{0.6em}
-\noindent{\color{river!30}\rule{\textwidth}{0.4pt}}
 
 \section{Introduction}
 
@@ -177,21 +142,20 @@ La figure~\ref{fig:sites} rappelle que ces trois points ne mesurent pas la même
 
 \begin{figure}[ht]
 \centering
-\begin{tikzpicture}[x=1cm,y=1cm]
-  \fill[clay!12] (0,2.55) rectangle (14.6,6.45);
-  \fill[river!16] (0,0) rectangle (14.6,2.2);
-  \draw[river!75!black, line width=2.5pt, line cap=round]
-    (12.35,6.45) .. controls (11.9,4.85) and (10.7,3.45) .. (9.55,2.2);
-  \node[anchor=south east, font=\sffamily\scriptsize\bfseries, text=river] at (12.15,6.12) {Ndjili};
-  \node[draw=river, fill=white, rounded corners=1.5pt, align=center, inner sep=3.5pt, font=\sffamily\scriptsize] (mas) at (9.85,5.35) {\textbf{Masina}\\amont urbain};
-  \draw[river, thin] (mas.east) -- (11.7,5.35);
-  \node[draw=river, fill=white, rounded corners=1.5pt, align=center, inner sep=3.5pt, font=\sffamily\scriptsize] (kg) at (7.55,3.55) {\textbf{Kingabwa}\\aval urbain};
-  \draw[river, thin] (kg.east) -- (10.35,3.45);
-  \node[anchor=north west, align=left, font=\sffamily\scriptsize, text=clay!80!black] at (0.35,6.15) {Pluie sur le bassin et sur la ville.\\L'auget sert à ne pas confondre les deux.};
-  \node[anchor=north west, align=left, font=\sffamily\scriptsize, text=river!85!black] at (0.35,4.15) {Crue rapide.\\La Ndjili monte en quelques heures.};
-  \node[draw=river, fill=white, rounded corners=1.5pt, align=center, inner sep=3.5pt, font=\sffamily\scriptsize] (ks) at (2.05,1.08) {\textbf{Kinsuka}\\bord du Pool};
-  \node[font=\sffamily\bfseries\small, text=river!80!black, anchor=west] at (3.55,1.08) {Pool Malebo};
-  \node[anchor=west, align=left, font=\sffamily\scriptsize, text=river!90!black] at (8.15,1.08) {Crue lente du fleuve.\\Le Pool monte et gêne la sortie.};
+\begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize]
+  \draw[black, line width=1.4pt, line cap=round]
+    (12.35,6.15) .. controls (11.9,4.55) and (10.7,3.15) .. (9.55,1.7);
+  \node[anchor=south east, font=\footnotesize\bfseries] at (12.15,5.85) {Ndjili};
+  \node[box] (mas) at (9.7,5.05) {\textbf{Masina}\\amont urbain};
+  \draw (mas.east) -- (11.55,5.05);
+  \node[box] (kg) at (7.4,3.25) {\textbf{Kingabwa}\\aval urbain};
+  \draw (kg.east) -- (10.2,3.15);
+  \node[anchor=north west, align=left] at (0.2,5.7) {Pluie sur le bassin et sur la ville.\\L'auget sert à ne pas confondre les deux.};
+  \node[anchor=north west, align=left] at (0.2,3.7) {Crue rapide.\\La Ndjili monte en quelques heures.};
+  \draw (0,1.7) -- (14.4,1.7);
+  \node[box] (ks) at (2.05,0.85) {\textbf{Kinsuka}\\bord du Pool};
+  \node[anchor=west, font=\footnotesize\bfseries] at (3.55,0.85) {Pool Malebo};
+  \node[anchor=west, align=left] at (8.15,0.85) {Crue lente du fleuve.\\Le Pool monte et gêne la sortie.};
 \end{tikzpicture}
 \caption{Deux eaux, trois stations. Schéma de principe, pas un levé. Masina et Kingabwa lisent la Ndjili. Kinsuka lit le Pool.}
 \label{fig:sites}
@@ -205,7 +169,7 @@ Les seuils ne sortent pas d'un modèle que personne n'a calé sur ces sections. 
 \centering
 \small
 \renewcommand{\arraystretch}{1.28}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\sffamily\bfseries}p{2.15cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.15cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
 \toprule
 État & Repère & Ce qui part & Qui décide \\
 \midrule
@@ -226,19 +190,14 @@ Cette séparation est le cœur du dispositif. La vigilance et l'alerte demandent
 
 Le message est court. Il dit le lieu, le repère, le geste, et vers qui se tourner. Il est prévu en français et en lingala.
 
-\begin{tcolorbox}[
-  colback=river!5,
-  colframe=river,
-  title={Exemple de message, état \enquote{alerte}, station de Masina},
-  fonttitle=\sffamily\bfseries\small,
-  coltitle=white,
-  colbacktitle=river
-]
+\begin{quote}
+\textbf{Exemple de message, état \enquote{alerte}, station de Masina.}
+
 \textbf{Français.} Ndjili, Masina. Niveau au-dessus du repère orange. L'eau peut entrer dans les parcelles basses. Mettez les biens en hauteur. Confirmez auprès du chef de quartier.
 
 \vspace{0.45em}
 \textbf{Lingala, base à reprendre sur place.} Mayi ya Ndjili na Masina ekoli. Repère orange eleki. Bomema biloko na likolo. Tuna na chef ya quartier.
-\end{tcolorbox}
+\end{quote}
 
 \vspace{0.4em}
 La phrase lingala n'est pas un texte définitif. \enquote{Mayi ekoli} dit que l'eau monte, \enquote{bomema biloko na likolo} demande de monter les biens, \enquote{tuna na chef ya quartier} renvoie au chef de quartier. Elle doit être reprise avec les relais avant tout envoi. Un mot de trop, ou un ton de rumeur, et le deuxième message ne sera plus cru. Le français du SMS a le même devoir de brièveté~: un paragraphe ne s'affiche pas sur un téléphone simple, et il ne se crie pas dans une allée.
@@ -252,40 +211,35 @@ L'architecture tient en quatre couches. Toutes sont dans la ville. La figure~\re
 
 \begin{figure}[p]
 \centering
-\begin{tikzpicture}[x=1cm,y=1.12cm]
-  \fill[river!8, rounded corners=2pt] (0,8.95) rectangle (15.4,12.05);
-  \fill[river!5, rounded corners=2pt] (0,5.85) rectangle (15.4,8.65);
-  \fill[clay!10, rounded corners=2pt] (0,2.95) rectangle (15.4,5.55);
-  \fill[river!8, rounded corners=2pt] (0,0.05) rectangle (15.4,2.65);
+\begin{tikzpicture}[x=1cm,y=1.08cm,font=\footnotesize]
+  \node[anchor=west, font=\footnotesize\bfseries] at (0.15,11.55) {1. Perception};
+  \node[box, minimum width=4.05cm] at (2.55,10.35) {\textbf{Masina}\\niveau et pluie\\entrée de la Ndjili};
+  \node[box, minimum width=4.05cm] at (7.7,10.35) {\textbf{Kingabwa}\\niveau et pluie\\aval de la Ndjili};
+  \node[box, minimum width=4.05cm] at (12.85,10.35) {\textbf{Kinsuka}\\niveau et pluie\\bord du Pool};
+  \node[anchor=west, font=\scriptsize] at (0.15,9.25) {Hors d'eau. Pas de 15 min, ou de 2 min si la cote bouge vite. Batterie. Ouvrage déjà gardé.};
 
-  \node[anchor=west, font=\sffamily\scriptsize\bfseries, text=river] at (0.25,11.72) {1 \quad PERCEPTION};
-  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, minimum width=4.05cm, minimum height=1.45cm] (n1) at (2.55,10.45) {\textbf{Masina}\\niveau et pluie\\entrée de la Ndjili};
-  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, minimum width=4.05cm, minimum height=1.45cm] (n2) at (7.7,10.45) {\textbf{Kingabwa}\\niveau et pluie\\aval de la Ndjili};
-  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, minimum width=4.05cm, minimum height=1.45cm] (n3) at (12.85,10.45) {\textbf{Kinsuka}\\niveau et pluie\\bord du Pool};
-  \node[anchor=west, font=\sffamily\scriptsize, text=river!80!black] at (0.25,9.25) {Hors d'eau. Pas de 15 min, ou de 2 min si la cote bouge vite. Batterie. Ouvrage déjà gardé.};
+  \draw[arr] (7.7,8.85) -- (7.7,8.45);
+  \node[font=\scriptsize, fill=white, inner sep=1.5pt] at (9.35,8.65) {LoRaWAN};
 
-  \draw[river, line width=0.7pt, -{Stealth[length=2.2mm]}] (7.7,8.95) -- (7.7,8.62);
-  \node[font=\sffamily\scriptsize\bfseries, fill=river!8, text=river, inner sep=1.5pt] at (9.55,8.78) {LoRaWAN};
+  \node[anchor=west, font=\footnotesize\bfseries] at (0.15,8.15) {2. Collecte et décision locale};
+  \node[box, text width=8.6cm] at (5.05,6.75) {\textbf{Passerelle, bâtiment communal gardé}\\Elle archive, compare la cote au repère, et peut décider sans le centre.};
+  \node[box, dashed, text width=3.2cm] at (13.15,6.75) {\textbf{Sirène}\\locale, si le lien vers le centre est mort};
 
-  \node[anchor=west, font=\sffamily\scriptsize\bfseries, text=river] at (0.25,8.32) {2 \quad COLLECTE ET DÉCISION LOCALE};
-  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, text width=8.7cm, minimum height=1.35cm] (gw) at (5.15,6.85) {\textbf{Passerelle, dans un bâtiment communal gardé}\\Elle archive, compare la cote au repère, et peut décider sans le centre.};
-  \node[draw=clay, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=3pt, font=\sffamily\scriptsize, text width=3.15cm, minimum height=1.35cm] (sir) at (13.15,6.85) {\textbf{Sirène}\\locale, si le lien vers le centre est mort};
+  \draw[arr] (7.7,5.85) -- (7.7,5.45);
+  \node[font=\scriptsize, fill=white, inner sep=1.5pt] at (10.7,5.65) {lien urbain, avec file d'attente};
 
-  \draw[river, line width=0.7pt, -{Stealth[length=2.2mm]}] (7.7,5.85) -- (7.7,5.52);
-  \node[font=\sffamily\scriptsize\bfseries, fill=river!5, text=river, inner sep=1.5pt] at (10.85,5.68) {lien urbain, avec file d'attente};
+  \node[anchor=west, font=\footnotesize\bfseries] at (0.15,5.15) {3. Traitement, à Kinshasa};
+  \node[box, text width=11.2cm] at (7.7,3.75) {\textbf{Serveur dans la ville}\\Historique des cotes, journal des envois, visa humain pour la crue majeure. L'original des données reste ici.};
 
-  \node[anchor=west, font=\sffamily\scriptsize\bfseries, text=clay!85!black] at (0.25,5.22) {3 \quad TRAITEMENT, À KINSHASA};
-  \node[draw=clay, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, text width=11.4cm, minimum height=1.3cm] (srv) at (7.7,3.85) {\textbf{Serveur dans la ville}\\Historique des cotes, journal des envois, visa humain pour la crue majeure. L'original des données reste ici.};
+  \draw[arr] (7.7,2.85) -- (7.7,2.45);
+  \node[font=\scriptsize, fill=white, inner sep=1.5pt] at (10.15,2.65) {SMS, deux opérateurs};
 
-  \draw[river, line width=0.7pt, -{Stealth[length=2.2mm]}] (7.7,2.95) -- (7.7,2.62);
-  \node[font=\sffamily\scriptsize\bfseries, fill=clay!10, text=clay!85!black, inner sep=1.5pt] at (10.55,2.78) {SMS, deux opérateurs};
-
-  \node[anchor=west, font=\sffamily\scriptsize\bfseries, text=river] at (0.25,2.32) {4 \quad DIFFUSION ET ACTION HUMAINE};
-  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=3pt, font=\sffamily\scriptsize, minimum width=4.15cm, minimum height=1.35cm] at (2.6,1.05) {\textbf{Chefs de quartier}\\le relais vers les parcelles};
-  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=3pt, font=\sffamily\scriptsize, minimum width=4.15cm, minimum height=1.35cm] at (7.7,1.05) {\textbf{Marchés}\\biens et vivres mis en hauteur};
-  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=3pt, font=\sffamily\scriptsize, minimum width=4.15cm, minimum height=1.35cm] at (12.8,1.05) {\textbf{Centres de santé}\\salles basses et stock};
+  \node[anchor=west, font=\footnotesize\bfseries] at (0.15,2.15) {4. Diffusion et action humaine};
+  \node[box, minimum width=4.15cm] at (2.6,0.95) {\textbf{Chefs de quartier}\\le relais vers les parcelles};
+  \node[box, minimum width=4.15cm] at (7.7,0.95) {\textbf{Marchés}\\biens et vivres mis en hauteur};
+  \node[box, minimum width=4.15cm] at (12.8,0.95) {\textbf{Centres de santé}\\salles basses et stock};
 \end{tikzpicture}
-\caption{Architecture du pilote. En ocre, ce qui doit rester décidé dans la ville même quand les liens extérieurs tombent. Un capteur n'émet pas l'ordre d'évacuer.}
+\caption{Architecture du pilote. Le cadre tireté est la sirène locale : elle part même si le serveur ne répond plus. Un capteur n'émet pas l'ordre d'évacuer.}
 \label{fig:archi}
 \end{figure}
 
@@ -315,7 +269,7 @@ Le chemin qui va du capteur à la passerelle, et le chemin qui va de la passerel
 \centering
 \footnotesize
 \renewcommand{\arraystretch}{1.22}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\sffamily\bfseries}p{2.25cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.25cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
 \toprule
 Critère & LoRaWAN & NB-IoT & GSM / SMS \\
 \midrule
