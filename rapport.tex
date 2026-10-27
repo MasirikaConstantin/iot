@@ -1,0 +1,456 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{charter}
+\usepackage[scaled=0.96]{helvet}
+\usepackage[a4paper,margin=2.3cm,headheight=15pt,footskip=1.05cm]{geometry}
+\usepackage{setspace}
+\usepackage{microtype}
+\usepackage[french]{babel}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,babel}
+\usepackage{etoolbox}
+\usepackage{fancyhdr}
+\usepackage[nobottomtitles*]{titlesec}
+\renewcommand{\bottomtitlespace}{5\baselineskip}
+\usepackage{caption}
+\makeatletter
+\setlength{\@fptop}{4pt}
+\setlength{\@fpsep}{8pt plus 1fil}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+\usepackage{xurl}
+\usepackage{hyperref}
+
+\definecolor{river}{RGB}{16,68,102}
+\definecolor{clay}{RGB}{132,72,36}
+\definecolor{ink}{RGB}{32,36,40}
+
+\setstretch{1.12}
+\setlength{\parindent}{1.15em}
+\setlength{\parskip}{0pt}
+
+\captionsetup{font=small,labelfont={bf,sf},skip=8pt,justification=raggedright,singlelinecheck=false}
+\tcbset{arc=1.2pt,boxrule=0.6pt,left=8pt,right=8pt,top=6pt,bottom=6pt}
+
+\titleformat{\section}
+  {\Large\sffamily\bfseries\color{river}}
+  {\thesection}{0.7em}{}
+  [\vspace{-0.4em}{\color{river!35}\titlerule[0.6pt]}]
+\titlespacing*{\section}{0pt}{1.35em}{0.75em}
+
+\titleformat{\subsection}
+  {\large\sffamily\bfseries\color{river!88!black}}
+  {\thesubsection}{0.65em}{}
+\titlespacing*{\subsection}{0pt}{1.05em}{0.4em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{river!75!black}Alerte de proximité à Kinshasa}
+\fancyhead[R]{\small\sffamily\color{river!75!black}IoT\ /\ Master 1}
+\fancyfoot[C]{\small\sffamily\color{river!75!black}\thepage}
+\renewcommand{\headrule}{{\color{river!35}\hrule width\headwidth height 0.45pt \vskip-\headrulewidth}}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\small\sffamily\color{river!75!black}\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\headrule}{}%
+}
+
+\hypersetup{
+  pdftitle={Alerte de proximité avant la crue à Kinshasa},
+  pdfauthor={},
+  colorlinks=true,
+  linkcolor=river,
+  urlcolor=river,
+  citecolor=river
+}
+
+\AtBeginDocument{\color{ink}}
+\AtBeginEnvironment{tikzpicture}{\shorthandoff{:;!?}}
+
+\begin{document}
+
+\begin{titlepage}
+\hypersetup{pageanchor=false}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[river] (current page.north west) rectangle ([yshift=-1.15cm]current page.north east);
+  \fill[clay] ([yshift=-1.15cm]current page.north west) rectangle ([yshift=-1.32cm]current page.north east);
+  \fill[river] (current page.south west) rectangle ([yshift=0.55cm]current page.south east);
+\end{tikzpicture}
+
+\vspace*{1.5cm}
+{\sffamily\color{river}\small UNIVERSITÉ DE KINSHASA\par}
+\vspace{0.35em}
+{\sffamily\bfseries\color{ink} Mention Mathématiques, Statistique et Informatique\par}
+\vspace{0.25em}
+{\color{ink!80}Master 1 --- Data Science et intelligence artificielle\par}
+
+\vspace{1.5em}
+{\sffamily\small\color{clay} Travail pratique de récupération\par}
+\vspace{0.2em}
+{\sffamily\color{river} Internet des objets\par}
+
+\vspace{1.7em}
+\noindent{\color{river!40}\rule{\textwidth}{0.6pt}\par}
+\vspace{1.15em}
+{\sffamily\bfseries\LARGE\color{river} Alerte de proximité avant la crue\par}
+\vspace{0.7em}
+{\large Une architecture IoT pour les quartiers riverains\\ de la Ndjili et du Pool Malebo, à Kinshasa\par}
+\vspace{1.05em}
+\noindent{\color{river!40}\rule{\textwidth}{0.6pt}\par}
+
+\vspace{1em}
+{\small Travail théorique. L'énoncé ne demande ni programme, ni simulation, ni prototype. Ce document n'en contient pas.\par}
+
+\vspace{2.2em}
+{\sffamily\bfseries\color{river} Étudiant\par}
+\vspace{0.7em}
+% Renseignez l'identité ici, puis recompilez.
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}p{3.4cm}p{10.2cm}@{}}
+Nom et post-nom & \hrulefill \\
+Prénom & \hrulefill \\
+Matricule & \hrulefill \\
+\end{tabular}
+
+\vspace{1.8em}
+{\sffamily\bfseries\color{river} Enseignant\par}
+\vspace{0.35em}
+Michel Tshimanga
+
+\vfill
+{\small\color{ink!75} Octobre 2026\par}
+\vspace{0.8cm}
+\end{titlepage}
+
+\hypersetup{pageanchor=true}
+\tableofcontents
+\vspace{0.6em}
+\noindent{\color{river!30}\rule{\textwidth}{0.4pt}}
+
+\section{Introduction}
+
+Le thème du travail est large. L'Internet des objets, mis devant les problèmes de développement de la République démocratique du Congo, peut accueillir à peu près n'importe quel capteur. J'ai choisi un cas où l'eau est déjà passée, et où l'on voit précisément ce qui a manqué.
+
+Dans la nuit du 4 au 5 avril 2025, des pluies torrentielles font déborder la rivière Ndjili. Treize des vingt-quatre communes de Kinshasa sont touchées. Le bilan repris par la Fédération internationale de la Croix-Rouge fait état de 165~morts, de 28~blessés et de plus de 7\,000~personnes déplacées, avec des hauteurs d'eau allant jusqu'à un mètre et demi dans des quartiers périphériques d'une ville de plus de dix-sept millions d'habitants~\cite{ifrc2025}. L'année précédente, en janvier 2024, des inondations qualifiées de record avaient déjà concerné au moins six communes et plus de 79\,000~personnes, pour des dommages directs estimés à 96~millions de dollars~\cite{priur2026}.
+
+La METTELSAT, l'Agence nationale de météorologie et de télédétection par satellite, avait annoncé des pluies supérieures à la normale plusieurs semaines avant avril 2025~\cite{ifrc2025}. L'avertissement saisonnier existait donc. Ce qui n'existait pas, c'est une mesure du niveau, proche des parcelles, capable de dire à un chef de quartier, le matin même, qu'un repère connu vient d'être dépassé.
+
+C'est cet écart que la proposition cherche à réduire. Les sections suivent l'ordre demandé. D'abord le problème, tel qu'il se pose à Kinshasa, et non sous la forme d'une ville intelligente imaginaire. Ensuite le pilote, avec un schéma d'architecture original. Puis un tableau de trois technologies de communication, lu pour un choix et non pour une liste. Ensuite deux risques de déploiement, chacun avec une parade, et deux limites que ces parades ne lèvent pas. La conclusion dit ce que je retiens, et ce que je refuse de faire dire à ce schéma.
+
+\section{Un problème déjà mesuré, mal annoncé}
+\label{sec:probleme}
+
+Kinshasa est bâtie entre les collines et le Pool Malebo. Les termes de référence de l'étude de drainage lancée dans le Projet de résilience aux inondations urbaines (PRIUR) rappellent que la ville est drainée par plusieurs rivières. Les plus importantes sont la Ndjili, dont le bassin versant est d'environ 2\,000~km\textsuperscript{2}, et la N'sele, d'environ 6\,000~km\textsuperscript{2}. Des cours plus courts comptent autant dans les quartiers~: Gombe, Funa, Kalamu, Makelele, et d'autres~\cite{priur2026}. Ces lits sont l'exutoire. Quand ils sont encombrés, la pluie reste dans les parcelles.
+
+Le 11 avril 2025, devant le Conseil des ministres, le ministre des Infrastructures et Travaux publics décrit un réseau devenu inopérant. Les rejets réduisent le lit de la Ndjili, de la Funa, de la Matete, de la Kalamu, de la Makelele et de la Gombe. Les berges et les zones non aedificandi, c'est-à-dire les zones où l'on ne doit pas bâtir, sont occupées. L'ouest de la ville, autour de la baie de Ngaliema, court le même risque. Les remèdes qu'il cite ne sont pas des capteurs~: des travaux sur les rivières, le dragage du fleuve, la gestion des déchets, et l'arrêt des constructions dans le lit majeur~\cite{conseil2025}.
+
+Il faut distinguer deux eaux, parce qu'un seul type de mesure les confondrait. La première est rapide. Une nuit de pluie sur le bassin, et la Ndjili monte en quelques heures, comme les 4 et 5 avril 2025. La seconde est lente. En janvier 2024, l'OCHA indiquait que le fleuve Congo avait atteint, selon la Régie des voies fluviales, son plus haut niveau depuis plus de soixante ans~\cite{ocha2024}. Le Pool monte, l'évacuation des rivières urbaines se bloque, et des quartiers prennent l'eau sans qu'un orage local suffise à l'expliquer. Kinsuka et la baie de Ngaliema relèvent plutôt de cette seconde eau. Masina et Kingabwa relèvent des deux.
+
+Les suites ne s'arrêtent pas au niveau dans la maison. En avril 2025, la Croix-Rouge signale des coupures d'électricité et, à Kinshasa, une interruption de l'eau de la REGIDESO pendant cinq jours~\cite{ifrc2025}. L'eau stagnante vient ensuite. Le système dont je parle n'a pas à prétendre traiter une épidémie. Il doit arriver avant que les biens, et les personnes, soient déjà dans l'eau.
+
+Une partie du travail de fond est déjà engagée, et il serait malhonnête de l'ignorer. La METTELSAT produit les prévisions. Le projet CREWS, mené par la Banque mondiale et l'Organisation météorologique mondiale avec la METTELSAT comme partenaire opérationnel, appuie ces services hydrométéorologiques et la préparation d'outils de gestion du risque, y compris des termes de référence liés au drainage de Kinshasa~\cite{crews2025}. Le PRIUR, financé par un crédit de l'Association internationale de développement de 200~millions de dollars, vise d'abord Kinshasa et Kalemie. Sur ce montant, 150~millions vont aux infrastructures résilientes et 30~millions au renforcement institutionnel de la gestion des risques de catastrophe~\cite{priur2026}. Des relevés de rue ont même déjà cartographié l'exposition de Matete, de N'Djili et de Lemba~\cite{bm2020}.
+
+Tout cela répond à d'autres questions~: quel temps fera la saison, quels ouvrages reconstruire, quelles parcelles sont exposées. Aucun de ces dispositifs ne dit, à l'échelle d'un marché de Masina, que le niveau vient de passer la dalle que les vendeurs connaissent. Le trou est là. Il est local, il porte sur les heures qui viennent, et il doit joindre des gens qui n'ouvriront pas une application.
+
+\section{Ce que ferait le pilote}
+\label{sec:pilote}
+
+Je limite le pilote à trois stations de niveau. Chacune porte aussi un pluviomètre.
+
+\begin{itemize}
+  \item Une sur la Ndjili, à l'entrée de la zone urbaine de Masina, pour voir la crue arriver.
+  \item Une plus en aval, du côté de Kingabwa, là où le lit urbain est le plus contraint.
+  \item Une au bord du Pool, vers Kinsuka, pour la montée du fleuve et le blocage de l'évacuation.
+\end{itemize}
+
+La figure~\ref{fig:sites} rappelle que ces trois points ne mesurent pas la même eau. Les positions sont de principe. Les emplacements réels se choisiraient avec la commune, la Régie des voies fluviales et les riverains, sur un ouvrage déjà gardé~: un pont, un bâtiment communal, un centre de santé. Pas un boîtier seul au milieu d'une berge.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \fill[clay!12] (0,2.55) rectangle (14.6,6.45);
+  \fill[river!16] (0,0) rectangle (14.6,2.2);
+  \draw[river!75!black, line width=2.5pt, line cap=round]
+    (12.35,6.45) .. controls (11.9,4.85) and (10.7,3.45) .. (9.55,2.2);
+  \node[anchor=south east, font=\sffamily\scriptsize\bfseries, text=river] at (12.15,6.12) {Ndjili};
+  \node[draw=river, fill=white, rounded corners=1.5pt, align=center, inner sep=3.5pt, font=\sffamily\scriptsize] (mas) at (9.85,5.35) {\textbf{Masina}\\amont urbain};
+  \draw[river, thin] (mas.east) -- (11.7,5.35);
+  \node[draw=river, fill=white, rounded corners=1.5pt, align=center, inner sep=3.5pt, font=\sffamily\scriptsize] (kg) at (7.55,3.55) {\textbf{Kingabwa}\\aval urbain};
+  \draw[river, thin] (kg.east) -- (10.35,3.45);
+  \node[anchor=north west, align=left, font=\sffamily\scriptsize, text=clay!80!black] at (0.35,6.15) {Pluie sur le bassin et sur la ville.\\L'auget sert à ne pas confondre les deux.};
+  \node[anchor=north west, align=left, font=\sffamily\scriptsize, text=river!85!black] at (0.35,4.15) {Crue rapide.\\La Ndjili monte en quelques heures.};
+  \node[draw=river, fill=white, rounded corners=1.5pt, align=center, inner sep=3.5pt, font=\sffamily\scriptsize] (ks) at (2.05,1.08) {\textbf{Kinsuka}\\bord du Pool};
+  \node[font=\sffamily\bfseries\small, text=river!80!black, anchor=west] at (3.55,1.08) {Pool Malebo};
+  \node[anchor=west, align=left, font=\sffamily\scriptsize, text=river!90!black] at (8.15,1.08) {Crue lente du fleuve.\\Le Pool monte et gêne la sortie.};
+\end{tikzpicture}
+\caption{Deux eaux, trois stations. Schéma de principe, pas un levé. Masina et Kingabwa lisent la Ndjili. Kinsuka lit le Pool.}
+\label{fig:sites}
+\end{figure}
+
+Chaque station mesure sans toucher l'eau. Un capteur à ultrason ou à radar, fixé au-dessus du lit, évite l'envasement et les déchets qui arrachent une sonde immergée. Le pas ordinaire est de quinze minutes. Si le niveau varie vite, il passe à deux minutes. Le pluviomètre sert à distinguer une averse locale d'une onde qui descend la rivière. Le nœud n'envoie qu'une cote, une lame d'eau et l'état de sa batterie.
+
+Les seuils ne sortent pas d'un modèle que personne n'a calé sur ces sections. Ils partent de repères que les habitants utilisent déjà~: une dalle de marché, une marche de pont, un mur de parcelle. On les relève une fois, on les associe à la cote du capteur, et on les nomme dans le message. Quatre états suffisent. Ils sont dans le tableau~\ref{tab:etats}.
+
+\begin{table}[ht]
+\centering
+\small
+\renewcommand{\arraystretch}{1.28}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\sffamily\bfseries}p{2.15cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+État & Repère & Ce qui part & Qui décide \\
+\midrule
+Veille & Sous le repère connu du site & Rien vers le public. La cote est seulement archivée. & La station, seule. \\
+\addlinespace
+Vigilance & Le niveau approche du repère & SMS aux relais de ce site seulement. & Automatique, dans la passerelle. \\
+\addlinespace
+Alerte & Le repère est dépassé & SMS aux relais. Sirène locale si le lien vers le centre est coupé. & Automatique, dans la passerelle. \\
+\addlinespace
+Crue majeure & Le repère historique est dépassé & Demande d'évacuer les parcelles basses de ce site. & Une personne responsable confirme. \\
+\bottomrule
+\end{tabularx}
+\caption{Quatre états par station. Seul le dernier attend un visa humain. Les trois premiers ne donnent pas l'ordre de quitter le quartier.}
+\label{tab:etats}
+\end{table}
+
+Cette séparation est le cœur du dispositif. La vigilance et l'alerte demandent de mettre les biens en hauteur, pas de vider un quartier. Elles peuvent partir sans attendre un bureau. La crue majeure, elle, dit aux gens de partir. Un automate qui lance cet ordre au premier capteur déréglé fera plus de mal que le silence. Le serveur propose. Une personne désignée confirme~: la protection civile provinciale, ou le bourgmestre, selon ce que la ville aura écrit avant la saison. Pas le soir de la crue.
+
+Le message est court. Il dit le lieu, le repère, le geste, et vers qui se tourner. Il est prévu en français et en lingala.
+
+\begin{tcolorbox}[
+  colback=river!5,
+  colframe=river,
+  title={Exemple de message, état \enquote{alerte}, station de Masina},
+  fonttitle=\sffamily\bfseries\small,
+  coltitle=white,
+  colbacktitle=river
+]
+\textbf{Français.} Ndjili, Masina. Niveau au-dessus du repère orange. L'eau peut entrer dans les parcelles basses. Mettez les biens en hauteur. Confirmez auprès du chef de quartier.
+
+\vspace{0.45em}
+\textbf{Lingala, base à reprendre sur place.} Mayi ya Ndjili na Masina ekoli. Repère orange eleki. Bomema biloko na likolo. Tuna na chef ya quartier.
+\end{tcolorbox}
+
+\vspace{0.4em}
+La phrase lingala n'est pas un texte définitif. \enquote{Mayi ekoli} dit que l'eau monte, \enquote{bomema biloko na likolo} demande de monter les biens, \enquote{tuna na chef ya quartier} renvoie au chef de quartier. Elle doit être reprise avec les relais avant tout envoi. Un mot de trop, ou un ton de rumeur, et le deuxième message ne sera plus cru. Le français du SMS a le même devoir de brièveté~: un paragraphe ne s'affiche pas sur un téléphone simple, et il ne se crie pas dans une allée.
+
+Le relais humain fait partie du système, au même titre que la radio. Le chef de quartier, le responsable du marché et l'infirmier titulaire atteignent déjà des parcelles sans smartphone et sans forfait. Le SMS les vise eux d'abord. Une page peut exister pour la mairie, afin de voir les trois cotes. Elle n'est pas le canal qui prévient le quartier.
+
+\section{Architecture}
+\label{sec:archi}
+
+L'architecture tient en quatre couches. Toutes sont dans la ville. La figure~\ref{fig:archi} les empile dans l'ordre où l'information circule, du lit de la rivière jusqu'à la personne qui parle au quartier.
+
+\begin{figure}[p]
+\centering
+\begin{tikzpicture}[x=1cm,y=1.12cm]
+  \fill[river!8, rounded corners=2pt] (0,8.95) rectangle (15.4,12.05);
+  \fill[river!5, rounded corners=2pt] (0,5.85) rectangle (15.4,8.65);
+  \fill[clay!10, rounded corners=2pt] (0,2.95) rectangle (15.4,5.55);
+  \fill[river!8, rounded corners=2pt] (0,0.05) rectangle (15.4,2.65);
+
+  \node[anchor=west, font=\sffamily\scriptsize\bfseries, text=river] at (0.25,11.72) {1 \quad PERCEPTION};
+  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, minimum width=4.05cm, minimum height=1.45cm] (n1) at (2.55,10.45) {\textbf{Masina}\\niveau et pluie\\entrée de la Ndjili};
+  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, minimum width=4.05cm, minimum height=1.45cm] (n2) at (7.7,10.45) {\textbf{Kingabwa}\\niveau et pluie\\aval de la Ndjili};
+  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, minimum width=4.05cm, minimum height=1.45cm] (n3) at (12.85,10.45) {\textbf{Kinsuka}\\niveau et pluie\\bord du Pool};
+  \node[anchor=west, font=\sffamily\scriptsize, text=river!80!black] at (0.25,9.25) {Hors d'eau. Pas de 15 min, ou de 2 min si la cote bouge vite. Batterie. Ouvrage déjà gardé.};
+
+  \draw[river, line width=0.7pt, -{Stealth[length=2.2mm]}] (7.7,8.95) -- (7.7,8.62);
+  \node[font=\sffamily\scriptsize\bfseries, fill=river!8, text=river, inner sep=1.5pt] at (9.55,8.78) {LoRaWAN};
+
+  \node[anchor=west, font=\sffamily\scriptsize\bfseries, text=river] at (0.25,8.32) {2 \quad COLLECTE ET DÉCISION LOCALE};
+  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, text width=8.7cm, minimum height=1.35cm] (gw) at (5.15,6.85) {\textbf{Passerelle, dans un bâtiment communal gardé}\\Elle archive, compare la cote au repère, et peut décider sans le centre.};
+  \node[draw=clay, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=3pt, font=\sffamily\scriptsize, text width=3.15cm, minimum height=1.35cm] (sir) at (13.15,6.85) {\textbf{Sirène}\\locale, si le lien vers le centre est mort};
+
+  \draw[river, line width=0.7pt, -{Stealth[length=2.2mm]}] (7.7,5.85) -- (7.7,5.52);
+  \node[font=\sffamily\scriptsize\bfseries, fill=river!5, text=river, inner sep=1.5pt] at (10.85,5.68) {lien urbain, avec file d'attente};
+
+  \node[anchor=west, font=\sffamily\scriptsize\bfseries, text=clay!85!black] at (0.25,5.22) {3 \quad TRAITEMENT, À KINSHASA};
+  \node[draw=clay, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=4pt, font=\sffamily\scriptsize, text width=11.4cm, minimum height=1.3cm] (srv) at (7.7,3.85) {\textbf{Serveur dans la ville}\\Historique des cotes, journal des envois, visa humain pour la crue majeure. L'original des données reste ici.};
+
+  \draw[river, line width=0.7pt, -{Stealth[length=2.2mm]}] (7.7,2.95) -- (7.7,2.62);
+  \node[font=\sffamily\scriptsize\bfseries, fill=clay!10, text=clay!85!black, inner sep=1.5pt] at (10.55,2.78) {SMS, deux opérateurs};
+
+  \node[anchor=west, font=\sffamily\scriptsize\bfseries, text=river] at (0.25,2.32) {4 \quad DIFFUSION ET ACTION HUMAINE};
+  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=3pt, font=\sffamily\scriptsize, minimum width=4.15cm, minimum height=1.35cm] at (2.6,1.05) {\textbf{Chefs de quartier}\\le relais vers les parcelles};
+  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=3pt, font=\sffamily\scriptsize, minimum width=4.15cm, minimum height=1.35cm] at (7.7,1.05) {\textbf{Marchés}\\biens et vivres mis en hauteur};
+  \node[draw=river, fill=white, rounded corners=1.5pt, line width=0.55pt, align=center, inner sep=3pt, font=\sffamily\scriptsize, minimum width=4.15cm, minimum height=1.35cm] at (12.8,1.05) {\textbf{Centres de santé}\\salles basses et stock};
+\end{tikzpicture}
+\caption{Architecture du pilote. En ocre, ce qui doit rester décidé dans la ville même quand les liens extérieurs tombent. Un capteur n'émet pas l'ordre d'évacuer.}
+\label{fig:archi}
+\end{figure}
+
+\paragraph{Perception.}
+Le nœud est un objet contraint~: un microcontrôleur, une radio longue portée, le capteur de niveau, un pluviomètre à auget, une batterie tenue pour plusieurs jours sans soleil. Un petit panneau n'est ajouté que si le toit qui le porte est déjà surveillé. Le boîtier est fermé, sans écran, sans câble qui pend. Il n'a pas l'air d'un objet à revendre.
+
+\paragraph{Collecte et décision locale.}
+Une passerelle reçoit les trois stations de sa zone. Elle est dans un bureau qui a déjà un gardien. Elle conserve les mesures quand le lien vers le centre est coupé, et c'est elle qui compare la cote au repère. Le seuil d'alerte peut donc sonner sur place, par une sirène ou un haut-parleur, sans attendre un serveur. Ce choix s'écrit avant la saison des pluies, avec la commune. Il ne s'improvise pas le jour où l'eau monte.
+
+\paragraph{Traitement.}
+Le serveur est une machine ordinaire, physiquement à Kinshasa~: à l'hôtel de ville, ou dans une salle d'un établissement public qui accepte d'en répondre, l'université par exemple. Il montre les cotes, garde l'historique, et tient un journal simple. Quelle cote, quel seuil, qui a confirmé le message de crue majeure, à quelle heure le SMS est parti. L'original reste dans la ville. Une copie peut exister ailleurs, pour ne pas tout perdre dans un incendie ou un vol de machine. Le jour où le lien international est instable, l'alerte ne doit pas dépendre de cette copie.
+
+\paragraph{Diffusion.}
+Le SMS part d'une puce, avec une seconde puce chez un autre opérateur. On retient, pour le quartier visé, les deux réseaux qui passent encore sous la pluie. On le vérifie en saison, pas sur une brochure. Vodacom, Airtel et Orange sont les candidats à comparer sur place. La liste des destinataires reste courte~: les relais nommés, pas \enquote{toute la commune}. Un envoi de masse, le soir d'une crue, fabrique la saturation que l'on voulait éviter.
+
+\paragraph{Action.}
+Les relais font ensuite ce qu'ils font déjà. Ils parlent au quartier. Le système leur donne une heure et un repère, pas un discours.
+
+Deux règles empêchent un nœud isolé de faire peur trop loin. L'alerte \enquote{biens en hauteur} peut venir d'une seule station, parce qu'elle ne concerne que le voisinage de cette station. La demande de confirmation pour une évacuation exige soit deux stations d'accord, Masina et Kingabwa par exemple, soit une station et un appel de vérification. Un boîtier arraché qui envoie une cote absurde ne suffit pas à vider un quartier.
+
+\section{Trois liaisons, pas trois solutions interchangeables}
+\label{sec:tech}
+
+Le chemin qui va du capteur à la passerelle, et le chemin qui va de la passerelle aux personnes, ne sont pas le même problème. Les mettre dans un seul tableau sert à refuser l'idée qu'une technologie unique couvrirait les deux. Je compare LoRaWAN, le NB-IoT et le GSM utilisé pour le SMS. Le tableau~\ref{tab:tech} tient sur les critères qui comptent ici~: la portée dans ce tissu urbain, l'énergie, la dépendance à un opérateur, le coût qui revient chaque mois, le comportement sous l'orage, et le cadre radio.
+
+\begin{table}[ht]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.22}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\sffamily\bfseries}p{2.25cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Critère & LoRaWAN & NB-IoT & GSM / SMS \\
+\midrule
+Portée utile à Kinshasa & Un à trois kilomètres en bâti dense. Davantage si l'antenne est dégagée. À mesurer sur place. & Celle du LTE de l'opérateur, seulement si le service objet est vraiment ouvert. & Bonne dans la ville, inégale à l'intérieur et sous l'orage. \\
+\addlinespace
+Énergie au bord de l'eau & Très faible. Le nœud dort presque tout le temps. & Faible, mais chaque station porte un modem et une puce. & Trop forte pour un modem laissé au-dessus du lit. \\
+\addlinespace
+Qui doit déjà exister & Une passerelle à nous. Pas un service d'opérateur. & Un opérateur qui a activé le NB-IoT sur son réseau. & Un réseau mobile, déjà présent. \\
+\addlinespace
+Coût qui revient & La maintenance de la passerelle. Pas d'abonnement par station. & Un abonnement par capteur, douze mois par an. & Acceptable pour une ou deux puces. Absurde pour chaque station. \\
+\addlinespace
+Sous la pluie forte & Le lien station--passerelle ne passe pas par le réseau mobile. & Même fragilité que le réseau cellulaire. & Peut couper ou saturer au moment utile. \\
+\addlinespace
+Cadre radio & Bande sub-gigahertz des dispositifs à courte portée. À faire confirmer par l'ARPTC. & Bande licenciée de l'opérateur. & Bande licenciée de l'opérateur. \\
+\addlinespace
+Place dans le pilote & Retenu, entre les trois stations et la maison communale. & Non retenu. & Retenu seulement ensuite, vers les relais. \\
+\bottomrule
+\end{tabularx}
+\caption{Trois technologies, deux rôles. LoRaWAN relie la rivière à la passerelle. Le SMS relie la passerelle aux personnes. Le NB-IoT reste une option de papier tant qu'un opérateur ne le démontre pas à Kinshasa.}
+\label{tab:tech}
+\end{table}
+
+LoRaWAN est un protocole de réseau étendu à basse consommation, en étoile~: les nœuds parlent à une passerelle, ils ne parlent pas entre eux. Il est spécifié par la LoRa Alliance~\cite{lora}. Le nœud émet peu, dort longtemps, et une passerelle peut entendre beaucoup de stations. Je ne reprends pas les dix ou quinze kilomètres annoncés en rase campagne. Dans le bâti de Kinshasa, un à trois kilomètres est une hypothèse honnête, un peu plus si l'antenne est en hauteur sur un bâtiment public, le long du couloir de la rivière. Il faudra le mesurer. Sans cette mesure, le schéma promet une couverture qu'il n'a pas.
+
+La bande visée est celle des dispositifs à courte portée en dessous du gigahertz, autour de 868~MHz, avec une puissance faible et un temps d'émission limité. C'est le cadre décrit pour une grande partie de la Région~1 de l'UIT, et déjà utilisé pour ce type de réseau dans plusieurs pays d'Afrique~\cite{uit2018}. Une compilation privée indique, pour la RDC, la plage 868--868,6~MHz à 25~mW, avec une limite de facteur d'utilisation~\cite{eleos}. Je ne prends pas cette fiche pour une décision de l'Autorité de régulation de la poste et des télécommunications du Congo. Avant tout achat, la bande, la puissance et l'autorisation éventuelle se vérifient à l'ARPTC. Si l'Autorité impose une autre canalisation, on change la fréquence des modules. On ne change pas l'architecture.
+
+Le NB-IoT est une technologie cellulaire du 3GPP, pensée pour les objets~: bonne pénétration dans le bâti, consommation modérée. Elle n'existe dans une ville que si un opérateur l'a activée sur son réseau LTE. Je n'ai pas trouvé d'offre commerciale NB-IoT qui couvre Kinshasa. Les bandes mobiles du pays, elles, sont attribuées, en 800, 900, 1\,800~MHz et au-delà selon les opérateurs~\cite{arptc2025}. Une bande LTE n'est pas un service objet. Retenir le NB-IoT pour ce pilote, ce serait attendre un service non démontré, glisser une carte SIM dans chaque boîtier au bord de l'eau, et payer un abonnement par station. Le tableau le garde parce que la comparaison serait fausse sans lui. Le pilote ne le retient pas.
+
+Le GSM, et le SMS en particulier, est le seul des trois qui soit déjà dans la poche des relais. Il est mauvais comme lien de capteur. Le modem consomme, la puce se vole, l'abonnement se multiplie, et l'on ne construit pas un système de 2026 sur l'idée que le 2G sera là dans dix ans. Il est bon comme dernier pas. Une ou deux puces, dans un bâtiment fermé, joignent des téléphones simples. En avril 2025, l'électricité et l'eau de la ville ont cédé ensemble~\cite{ifrc2025}. Le réseau mobile peut céder aussi. C'est pour cela que la sirène ne dépend pas de lui, et que le SMS n'est pas le seul chemin.
+
+Le choix est donc mixte. LoRaWAN entre le lit et la maison communale. Le SMS ensuite, vers les personnes. Le NB-IoT pourra remplacer le SMS, ou même le lien des stations, le jour où un opérateur le proposera à Kinshasa avec un tarif d'objet et une couverture vérifiée sous la pluie. Ce jour n'est pas un fait, aujourd'hui.
+
+\section{Deux risques au moment du déploiement}
+\label{sec:risques}
+
+Un risque, ici, est un événement qui peut faire échouer le pilote ou le rendre dangereux, et contre lequel une parade existe dans la façon de le poser. Les limites de la section suivante sont autre chose~: elles restent vraies même si le pilote fonctionne.
+
+\subsection{Le matériel disparaît, ou il se met à mentir}
+
+Un panneau visible, une antenne, un boîtier au bord d'une avenue~: cela se démonte. Le risque n'est pas seulement la perte du matériel. Un nœud ouvert peut servir à émettre une fausse cote. Une fausse alerte, deux fois de suite, et les chefs de quartier cessent de relayer. Le système devient alors pire que l'absence de système, parce qu'il a usé la seule chose qui le faisait tenir~: la confiance.
+
+La parade consiste à réduire l'exposition, pas à ajouter de la tôle. Les stations sont sur des ouvrages déjà gardés. Le panneau solaire n'est posé que sur un toit surveillé. Le boîtier n'a ni écran ni valeur de revente évidente. Un petit stock de nœuds de rechange est prévu dès le départ~: le vol est un événement attendu, pas une surprise qui arrête la saison. Côté radio, l'entrée sur le réseau suit le mécanisme de session et de clés prévu par LoRaWAN, plutôt qu'un émetteur ouvert que n'importe qui peut imiter~\cite{lora}. La puce SMS, elle, reste dans le bâtiment, avec un code, pas dans le boîtier au-dessus de l'eau.
+
+Surtout, une station seule ne peut pas provoquer le message d'évacuation. Elle peut au plus demander, pour son propre voisinage, de mettre les biens en hauteur. Ce message cite le repère et l'heure. Un relais qui voit le ciel clair et la rivière basse peut le contredire tout de suite, et cette contradiction doit remonter dans le journal. Mieux vaut un SMS démenti par le chef de quartier qu'une consigne que personne n'ose contredire.
+
+\subsection{La panne au moment où la pluie tombe}
+
+C'est le risque qui compte. Le pilote est inutile s'il meurt avec le courant, et nuisible s'il parle dans le vide pendant que le réseau mobile sature. Avril 2025 a montré que les grands réseaux de Kinshasa peuvent céder ensemble~: électricité, et eau de la REGIDESO pendant cinq jours~\cite{ifrc2025}. Rien n'autorise à penser que le réseau mobile, lui, tiendra le soir d'une crue de la Ndjili.
+
+La passerelle tient plusieurs jours sur sa batterie. La comparaison entre la cote et le repère se fait dans cette passerelle, pas sur une machine lointaine. Si le centre ne répond plus, la sirène convenue à l'avance reste possible. Le serveur est dans la ville~: une coupure du câble international ne bloque pas l'envoi. Le SMS part par deux opérateurs, parce qu'un réseau saturé ne doit pas être le chemin unique. On teste cet envoi un jour de forte pluie, avant le pic de saison, et l'on note lequel des deux passe encore. Enfin, la liste des destinataires reste courte. Vouloir prévenir tout Kinshasa par SMS le soir d'une crue, c'est organiser soi-même l'encombrement.
+
+\section{Deux limites que le schéma ne lève pas}
+\label{sec:limites}
+
+Une limite n'est pas un incident. C'est une borne. La parade du risque ne la supprime pas. En nommer deux oblige à ne pas vendre le pilote pour autre chose que ce qu'il est.
+
+\subsection{L'alerte ne fait pas baisser l'eau}
+
+Même si chaque SMS part à l'heure, la Ndjili débordera tant que son lit reste encombré, tant que les caniveaux sont bouchés, et tant que l'on construit dans les zones où l'on ne doit pas bâtir. Le ministre des Infrastructures le disait en avril 2025 sans parler d'objets connectés~: les travaux, le dragage, les déchets, la discipline sur les berges~\cite{conseil2025}. Le PRIUR oriente 150~millions de dollars vers les infrastructures, sur un financement de 200~millions~\cite{priur2026}. Poser un capteur à côté de ce chantier et laisser entendre que la ville est couverte serait une faute.
+
+Le pilote fait gagner du temps. Il ne remplace ni un curage, ni un exutoire, ni une parcelle hors d'eau. Si l'alerte sert d'alibi pour retarder ces travaux, il vaut mieux ne pas l'installer. Je la défends seulement comme un filet, en attendant des ouvrages qui, eux, retirent l'eau. Le filet n'est pas l'ouvrage.
+
+\subsection{Trois stations voient peu, et personne n'est payé pour les tenir}
+
+Masina, Kingabwa et Kinsuka ne décrivent pas treize communes. Une averse sur la Funa ou la Kalamu peut noyer un quartier pendant que la Ndjili, en amont, est encore calme. Inversement, Kinsuka peut monter avec le fleuve sans que Masina soit déjà touchée. Le message doit donc dire de quel site il parle, et se taire sur le reste. Étendre le réseau à toutes les rivières de la ville est une autre décision, avec d'autres passerelles et d'autres relais. Ce n'est pas un réglage.
+
+L'autre borne est plus ordinaire, et elle suffit à tuer le projet. Les capteurs dérivent. Les augets se bouchent avec la poussière et les feuilles. Les batteries se fatiguent. Les numéros des chefs de quartier changent. Quelqu'un doit marcher jusqu'à la station, quelqu'un doit payer les deux puces, quelqu'un doit avoir le droit de valider la crue majeure. Si ces trois fonctions n'ont pas de budget de fonctionnement après la cérémonie d'installation, le pilote devient un boîtier muet en une saison des pluies. Je ne connais pas de correctif technique à cette limite. C'est une question de contrat~: qui emploie le technicien en novembre, et sur quelle ligne de la ville.
+
+\section{Conclusion}
+
+Je retiens l'alerte de proximité comme un complément étroit. La prévision de saison existe déjà, elle est portée par la METTELSAT, et des partenaires l'appuient. L'argent des ouvrages est engagé dans le PRIUR. Le trou utile est plus bas, et il est concret~: la cote d'un lit, un repère que le quartier connaît déjà, un message bref en français et en lingala vers des relais qui font déjà circuler les nouvelles, et une sirène qui ne dépend ni du courant du réseau urbain ni d'une machine hors du pays.
+
+Je ne retiens pas l'idée qu'un capteur pourrait remplacer l'autorité qui décide d'évacuer. Je ne retiens pas non plus qu'une application remplacerait le chef de quartier, le marché ou le centre de santé. Ces trois-là sont déjà l'infrastructure. Le pilote ne fait que leur donner une heure et une cote. Je ne retiens pas, enfin, un déploiement sur les vingt-quatre communes tant que trois stations n'ont pas passé une saison des pluies entière, vol, boue et pannes compris.
+
+Le test n'est pas le schéma. Au cœur de la saison, le test est de savoir qui change la batterie, qui paie les deux puces, et qui signe le message quand le repère historique est dépassé. Sans ces trois noms écrits quelque part, l'architecture reste un dessin. Kinshasa n'a pas besoin d'un dessin de plus. Elle a besoin d'un avertissement qui part encore la deuxième année.
+
+\begin{thebibliography}{99}
+\bibitem{ifrc2025}
+Fédération internationale des sociétés de la Croix-Rouge et du Croissant-Rouge.
+\emph{DREF Operation MDRCD046, Democratic Republic of the Congo, Floods}.
+2025.
+\href{https://reliefweb.int/attachments/d10b84da-d4c9-45a3-aaa3-0594b96b4c72/MDRCD046do.pdf}{reliefweb.int, opération DREF MDRCD046}.
+
+\bibitem{ocha2024}
+Bureau de la coordination des affaires humanitaires.
+\emph{Flash Update n\textsuperscript{o}~1~: de graves inondations affectent 18~provinces}.
+République démocratique du Congo, 24 janvier 2024.
+\href{https://reliefweb.int/attachments/54eda70e-28fb-4f52-915e-dbef7e99789c/OCHA\%20DRC\%20Flash\%20Update1\%20Inondations\%202023-2024.pdf}{reliefweb.int, flash update du 24 janvier 2024}.
+
+\bibitem{conseil2025}
+Présidence de la République démocratique du Congo.
+\emph{Compte rendu de la trente-neuvième réunion ordinaire du Conseil des ministres du 11 avril 2025}.
+Communication du ministre des Infrastructures et Travaux publics sur le débordement de la Ndjili.
+\href{https://presidence.cd/uploads/files/COMPTE\%20RENDU\%20DE\%20LA\%20TRENTE-NEUVIEME\%20REUNION\%20ORDINAIRE\%20DU\%20CONSEIL\%20DES\%20MINISTRES\%20DU\%2011\%20AVRIL\%202025.pdf}{presidence.cd, compte rendu du 11 avril 2025}.
+
+\bibitem{priur2026}
+Projet de résilience aux inondations urbaines en République démocratique du Congo.
+\emph{Termes de référence pour l'étude du réseau global de drainage de la ville de Kinshasa}.
+Financement IDA, Banque mondiale. Document de consultation diffusé en 2026.
+\href{https://www.mediacongo.net/dpics/filesmanager/jobaof/2026/02-fevrier/01/ci_260205_02_04.pdf}{mediacongo.net, termes de référence PRIUR}.
+
+\bibitem{crews2025}
+CREWS, Banque mondiale et Organisation météorologique mondiale.
+\emph{Democratic Republic of the Congo. Project status report, January--December 2025}.
+Partenaire opérationnel~: METTELSAT.
+\href{https://crews-initiative.org/wp-content/uploads/2026/09/CREWS-Democratic-Republic-of-Congo-Project-Status-Report-Jan\%E2\%80\%93Dec-2025.pdf}{crews-initiative.org, rapport 2025}.
+
+\bibitem{bm2020}
+Banque mondiale.
+\emph{Flood exposure and vulnerability mapping using street level image automatic acquisition}.
+Relevés de rue à Matete, N'Djili et Lemba, 5--11 février 2020.
+\href{https://documents1.worldbank.org/curated/en/099648304032428971/pdf/IDU1e7b0c081137c5142051b4f017e8c4d6964b9.pdf}{documents.worldbank.org, relevés de rue 2020}.
+
+\bibitem{uit2018}
+Union internationale des télécommunications.
+\emph{Rapport UIT-R SM.2423~: aspects techniques et opérationnels des réseaux LPWAN pour les communications de type machine et l'Internet des objets}.
+2018.
+\href{https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-SM.2423-2018-PDF-F.pdf}{itu.int, rapport SM.2423}.
+
+\bibitem{lora}
+LoRa Alliance.
+Spécification LoRaWAN, couche liaison.
+\href{https://lora-alliance.org/about-lorawan/}{lora-alliance.org}.
+
+\bibitem{arptc2025}
+Autorité de régulation de la poste et des télécommunications du Congo.
+\emph{Questionnaire de consultation publique sur les réseaux 5G et le spectre}.
+Mars 2025. Le document décrit les bandes mobiles en discussion. Il ne décrit pas une offre NB-IoT commerciale.
+\href{https://arptc.gouv.cd/app/uploads/2025/03/Questionnaire_Consultation-publique_RDC_V7_010325.pdf}{arptc.gouv.cd, consultation de mars 2025}.
+
+\bibitem{eleos}
+Eleos Compliance.
+Fiche de synthèse sur l'homologation et des plages de fréquences en République démocratique du Congo.
+Compilation privée, à ne pas confondre avec une décision de l'ARPTC.
+\href{https://www.eleoscompliance.com/fr/type-approval/congo-republique-d\%C3\%A9mocratique-du-congo}{eleoscompliance.com, fiche RDC}.
+\end{thebibliography}
+
+\end{document}
