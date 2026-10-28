@@ -43,8 +43,11 @@
 
 \AtBeginEnvironment{tikzpicture}{\shorthandoff{:;!?}}
 \tikzset{
-  box/.style={draw=black, fill=white, align=center, inner sep=4pt, font=\footnotesize},
-  arr/.style={draw=black, line width=0.6pt, -{Stealth[length=2mm]}}
+  box/.style={draw=black, fill=white, align=center, inner sep=3.5pt, font=\scriptsize},
+  databox/.style={draw=black, fill=white, align=left, inner sep=3.5pt, font=\scriptsize},
+  layer/.style={draw=black!70, fill=black!4, inner sep=0pt},
+  arr/.style={draw=black, line width=0.7pt, -{Stealth[length=2.2mm]}},
+  linklbl/.style={draw=black, fill=white, font=\scriptsize\bfseries, inner sep=2.5pt, align=center}
 }
 
 \begin{document}
@@ -145,21 +148,24 @@ La figure~\ref{fig:sites} rappelle que ces trois points ne mesurent pas la même
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}[x=1cm,y=1cm,font=\footnotesize]
-  \draw[black, line width=1.4pt, line cap=round]
-    (12.35,6.15) .. controls (11.9,4.55) and (10.7,3.15) .. (9.55,1.7);
-  \node[anchor=south east, font=\footnotesize\bfseries] at (12.15,5.85) {Ndjili};
-  \node[box] (mas) at (9.7,5.05) {\textbf{Masina}\\amont urbain};
-  \draw (mas.east) -- (11.55,5.05);
-  \node[box] (kg) at (7.4,3.25) {\textbf{Kingabwa}\\aval urbain};
-  \draw (kg.east) -- (10.2,3.15);
-  \node[anchor=north west, align=left] at (0.2,5.7) {Pluie sur le bassin et sur la ville.\\L'auget sert à ne pas confondre les deux.};
-  \node[anchor=north west, align=left] at (0.2,3.7) {Crue rapide.\\La Ndjili monte en quelques heures.};
-  \draw (0,1.7) -- (14.4,1.7);
-  \node[box] (ks) at (2.05,0.85) {\textbf{Kinsuka}\\bord du Pool};
-  \node[anchor=west, font=\footnotesize\bfseries] at (3.55,0.85) {Pool Malebo};
-  \node[anchor=west, align=left] at (8.15,0.85) {Crue lente du fleuve.\\Le Pool monte et gêne la sortie.};
+  \fill[black!5] (0,2.05) rectangle (14.5,6.55);
+  \fill[black!9] (0,0) rectangle (14.5,2.05);
+  \draw[black, line width=1.5pt, line cap=round]
+    (12.4,6.55) .. controls (11.95,4.7) and (10.75,3.2) .. (9.55,2.05);
+  \node[anchor=south east, font=\footnotesize\bfseries] at (12.2,6.2) {Ndjili};
+  \node[databox] (mas) at (9.35,5.25) {\textbf{Station Masina}\\amont urbain\\niveau + pluie\\pas 15~min / 2~min};
+  \draw (mas.east) -- (11.65,5.25);
+  \node[databox] (kg) at (7.05,3.45) {\textbf{Station Kingabwa}\\aval urbain\\niveau + pluie\\pas 15~min / 2~min};
+  \draw (kg.east) -- (10.35,3.35);
+  \node[anchor=north west, align=left, font=\scriptsize] at (0.25,6.35) {\textbf{Bassin + ville}\\Pluie locale (auget)\\vs onde de crue.};
+  \node[anchor=north west, align=left, font=\scriptsize] at (0.25,4.25) {\textbf{Crue rapide}\\La Ndjili monte\\en quelques heures.};
+  \node[databox] (ks) at (2.15,0.95) {\textbf{Station Kinsuka}\\bord du Pool\\niveau + pluie\\blocage d'évacuation};
+  \node[anchor=west, font=\footnotesize\bfseries] at (4.55,1.25) {Pool Malebo};
+  \node[anchor=west, align=left, font=\scriptsize] at (8.0,0.95) {\textbf{Crue lente}\\Le fleuve monte et\\gêne la sortie des rivières.};
+  \node[anchor=south west, font=\scriptsize] at (0.2,2.15) {Zone rivières urbaines};
+  \node[anchor=north west, font=\scriptsize] at (0.2,1.95) {Zone fleuve / Pool};
 \end{tikzpicture}
-\caption{Deux eaux, trois stations. Schéma de principe, pas un levé. Masina et Kingabwa lisent la Ndjili. Kinsuka lit le Pool.}
+\caption{Deux eaux, trois stations. Schéma de principe, pas un levé. Chaque station mesure le niveau (hors d'eau) et la pluie.}
 \label{fig:sites}
 \end{figure}
 
@@ -209,39 +215,110 @@ Le relais humain fait partie du système, au même titre que la radio. Le chef d
 \section{Architecture}
 \label{sec:archi}
 
-L'architecture tient en quatre couches. Toutes sont dans la ville. La figure~\ref{fig:archi} les empile dans l'ordre où l'information circule, du lit de la rivière jusqu'à la personne qui parle au quartier.
+L'architecture tient en quatre couches. Toutes sont dans la ville. La figure~\ref{fig:archi} détaille le parcours de l'information~: capteurs, protocole, décision locale, serveur, SMS et relais humains.
 
 \begin{figure}[p]
 \centering
-\begin{tikzpicture}[x=1cm,y=1.08cm,font=\footnotesize]
-  \node[anchor=west, font=\footnotesize\bfseries] at (0.15,11.55) {1. Perception};
-  \node[box, minimum width=4.05cm] at (2.55,10.35) {\textbf{Masina}\\niveau et pluie\\entrée de la Ndjili};
-  \node[box, minimum width=4.05cm] at (7.7,10.35) {\textbf{Kingabwa}\\niveau et pluie\\aval de la Ndjili};
-  \node[box, minimum width=4.05cm] at (12.85,10.35) {\textbf{Kinsuka}\\niveau et pluie\\bord du Pool};
-  \node[anchor=west, font=\scriptsize] at (0.15,9.25) {Hors d'eau. Pas de 15 min, ou de 2 min si la cote bouge vite. Batterie. Ouvrage déjà gardé.};
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize]
+  \fill[black!5] (0.05,15.55) rectangle (15.55,19.55);
+  \fill[black!8] (0.05,11.15) rectangle (15.55,15.35);
+  \fill[black!5] (0.05,6.85) rectangle (15.55,10.95);
+  \fill[black!8] (0.05,0.15) rectangle (15.55,6.65);
+  \draw[black!55] (0.05,15.45) -- (15.55,15.45);
+  \draw[black!55] (0.05,11.05) -- (15.55,11.05);
+  \draw[black!55] (0.05,6.75) -- (15.55,6.75);
 
-  \draw[arr] (7.7,8.85) -- (7.7,8.45);
-  \node[font=\scriptsize, fill=white, inner sep=1.5pt] at (9.35,8.65) {LoRaWAN};
+  \node[font=\small\bfseries] at (7.8,19.95) {Architecture IoT du pilote --- alerte de proximité à Kinshasa};
 
-  \node[anchor=west, font=\footnotesize\bfseries] at (0.15,8.15) {2. Collecte et décision locale};
-  \node[box, text width=8.6cm] at (5.05,6.75) {\textbf{Passerelle, bâtiment communal gardé}\\Elle archive, compare la cote au repère, et peut décider sans le centre.};
-  \node[box, dashed, text width=3.2cm] at (13.15,6.75) {\textbf{Sirène}\\locale, si le lien vers le centre est mort};
+  \node[anchor=west, font=\footnotesize\bfseries] at (0.2,19.25) {1. Perception (terrain)};
+  \node[databox, text width=4.35cm] (n1) at (2.7,17.55) {%
+    \textbf{Station Masina}\\
+    Ndjili, amont urbain\\
+    Capteur niveau (ultrason/radar)\\
+    Pluviomètre à auget\\
+    Batterie + boîtier fermé\\
+    Pas~: 15~min (2~min si $\Delta$ rapide)};
+  \node[databox, text width=4.35cm] (n2) at (7.8,17.55) {%
+    \textbf{Station Kingabwa}\\
+    Ndjili, aval urbain\\
+    Capteur niveau (ultrason/radar)\\
+    Pluviomètre à auget\\
+    Batterie + boîtier fermé\\
+    Pas~: 15~min (2~min si $\Delta$ rapide)};
+  \node[databox, text width=4.35cm] (n3) at (12.9,17.55) {%
+    \textbf{Station Kinsuka}\\
+    Bord du Pool Malebo\\
+    Capteur niveau (ultrason/radar)\\
+    Pluviomètre à auget\\
+    Batterie + boîtier fermé\\
+    Pas~: 15~min (2~min si $\Delta$ rapide)};
+  \node[anchor=west, align=left] at (0.25,15.85) {Charge utile~: cote (m), lame d'eau (mm), état batterie, horodatage. Pose sur un ouvrage déjà gardé.};
 
-  \draw[arr] (7.7,5.85) -- (7.7,5.45);
-  \node[font=\scriptsize, fill=white, inner sep=1.5pt] at (10.7,5.65) {lien urbain, avec file d'attente};
+  \draw[arr] (7.8,15.55) -- (7.8,15.05);
+  \node[linklbl] at (11.2,15.3) {LoRaWAN $\approx$\,868~MHz\\portée utile 1--3~km (à mesurer)};
 
-  \node[anchor=west, font=\footnotesize\bfseries] at (0.15,5.15) {3. Traitement, à Kinshasa};
-  \node[box, text width=11.2cm] at (7.7,3.75) {\textbf{Serveur dans la ville}\\Historique des cotes, journal des envois, visa humain pour la crue majeure. L'original des données reste ici.};
+  \node[anchor=west, font=\footnotesize\bfseries] at (0.2,14.95) {2. Collecte et décision locale};
+  \node[databox, text width=9.4cm] (gw) at (5.4,13.05) {%
+    \textbf{Passerelle --- bâtiment communal gardé}\\
+    Réception LoRaWAN des 3 stations\\
+    Archivage local si le centre est injoignable\\
+    Comparaison cote $\leftrightarrow$ repère du quartier\\
+    États~: veille / vigilance / alerte / crue majeure\\
+    Vigilance et alerte~: automatiques pour ce site};
+  \node[databox, dashed, text width=4.4cm] (sir) at (12.85,13.05) {%
+    \textbf{Sirène / haut-parleur}\\
+    Chemin de secours\\
+    Part si le lien vers le\\
+    serveur est coupé\\
+    Décidée avant la saison};
+  \node[anchor=west, align=left] at (0.25,11.45) {Règle locale~: une station seule peut demander \enquote{biens en hauteur}. Elle n'ordonne pas seule une évacuation.};
 
-  \draw[arr] (7.7,2.85) -- (7.7,2.45);
-  \node[font=\scriptsize, fill=white, inner sep=1.5pt] at (10.15,2.65) {SMS, deux opérateurs};
+  \draw[arr] (7.8,11.15) -- (7.8,10.65);
+  \node[linklbl] at (11.4,10.9) {Lien urbain + file d'attente\\données originales à Kinshasa};
 
-  \node[anchor=west, font=\footnotesize\bfseries] at (0.15,2.15) {4. Diffusion et action humaine};
-  \node[box, minimum width=4.15cm] at (2.6,0.95) {\textbf{Chefs de quartier}\\le relais vers les parcelles};
-  \node[box, minimum width=4.15cm] at (7.7,0.95) {\textbf{Marchés}\\biens et vivres mis en hauteur};
-  \node[box, minimum width=4.15cm] at (12.8,0.95) {\textbf{Centres de santé}\\salles basses et stock};
+  \node[anchor=west, font=\footnotesize\bfseries] at (0.2,10.55) {3. Traitement et supervision (dans la ville)};
+  \node[databox, text width=7.0cm] (srv) at (4.1,8.55) {%
+    \textbf{Serveur à Kinshasa}\\
+    Hôtel de ville / établissement public\\
+    Historique des cotes\\
+    Journal~: seuil, heure, destinataires\\
+    Proposition d'évacuation (crue majeure)\\
+    Original des données conservé ici};
+  \node[databox, text width=6.7cm] (hum) at (12.0,8.55) {%
+    \textbf{Visa humain}\\
+    Protection civile ou bourgmestre\\
+    Confirme seulement la crue majeure\\
+    Exige 2 stations d'accord\\
+    ou 1 station + appel de contrôle\\
+    Règle écrite avant la saison};
+  \node[anchor=west, align=left] at (0.25,7.15) {Tableau de bord mairie (consultation). L'alerte ne dépend jamais d'un lien international.};
+
+  \draw[arr] (7.8,6.85) -- (7.8,6.35);
+  \node[linklbl] at (11.25,6.6) {SMS (FR + lingala)\\2 opérateurs (ex.~Vodacom / Airtel)};
+
+  \node[anchor=west, font=\footnotesize\bfseries] at (0.2,6.05) {4. Diffusion et action humaine};
+  \node[databox, text width=4.5cm] at (2.7,4.15) {%
+    \textbf{Chefs de quartier}\\
+    Relais vers les parcelles\\
+    Confirment ou démentent\\
+    sur place};
+  \node[databox, text width=4.5cm] at (7.8,4.15) {%
+    \textbf{Marchés}\\
+    Biens et vivres\\
+    mis en hauteur\\
+    Avant l'entrée d'eau};
+  \node[databox, text width=4.5cm] at (12.9,4.15) {%
+    \textbf{Centres de santé}\\
+    Salles basses et stock\\
+    Mis à l'abri\\
+    Infirmier titulaire};
+  \node[databox, text width=14.8cm] at (7.8,1.85) {%
+    \textbf{Contenu type du SMS (état alerte)} --- lieu + repère + geste + contact.\\
+    FR~: \textit{Ndjili, Masina. Niveau au-dessus du repère orange. Mettez les biens en hauteur.}\\
+    Lingala (base)~: \textit{Mayi ya Ndjili na Masina ekoli. Bomema biloko na likolo. Tuna na chef ya quartier.}};
+  \node[anchor=west, align=left] at (0.25,0.55) {Liste courte de destinataires nommés. Pas d'envoi de masse à toute la commune le soir d'une crue.};
 \end{tikzpicture}
-\caption{Architecture du pilote. Le cadre tireté est la sirène locale : elle part même si le serveur ne répond plus. Un capteur n'émet pas l'ordre d'évacuer.}
+\caption{Schéma original de l'architecture IoT proposée. Quatre couches, données échangées, protocoles et règles de décision. Le cadre tireté est le chemin de secours local.}
 \label{fig:archi}
 \end{figure}
 
