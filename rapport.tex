@@ -11,6 +11,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{float}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,babel}
 \usepackage{etoolbox}
@@ -111,7 +112,7 @@ Dans la nuit du 4 au 5 avril 2025, des pluies torrentielles font déborder la ri
 
 La METTELSAT, l'Agence nationale de météorologie et de télédétection par satellite, avait annoncé des pluies supérieures à la normale plusieurs semaines avant avril 2025~\cite{ifrc2025}. L'avertissement saisonnier existait donc. Ce qui n'existait pas, c'est une mesure du niveau, proche des parcelles, capable de dire à un chef de quartier, le matin même, qu'un repère connu vient d'être dépassé.
 
-C'est cet écart que la proposition cherche à réduire. Les sections suivent l'ordre demandé. D'abord le problème, tel qu'il se pose à Kinshasa, et non sous la forme d'une ville intelligente imaginaire. Ensuite le pilote, avec un schéma d'architecture original. Puis un tableau de trois technologies de communication, lu pour un choix et non pour une liste. Ensuite deux risques de déploiement, chacun avec une parade, et deux limites que ces parades ne lèvent pas. La conclusion dit ce que je retiens, et ce que je refuse de faire dire à ce schéma.
+C'est cet écart que la proposition cherche à réduire. Les sections suivent l'ordre demandé. D'abord le problème, tel qu'il se pose à Kinshasa, et non sous la forme d'une ville intelligente imaginaire. Ensuite le pilote, avec un schéma d'architecture original. Puis un tableau comparatif de trois technologies de communication, lu pour un choix et non pour une liste. Ensuite deux risques de déploiement, chacun avec une parade, et deux limites que ces parades ne lèvent pas. La conclusion dit ce que je retiens, et ce que je refuse de faire dire à ce schéma.
 
 \section{Un problème déjà mesuré, mal annoncé}
 \label{sec:probleme}
@@ -261,47 +262,62 @@ Les relais font ensuite ce qu'ils font déjà. Ils parlent au quartier. Le syst�
 
 Deux règles empêchent un nœud isolé de faire peur trop loin. L'alerte \enquote{biens en hauteur} peut venir d'une seule station, parce qu'elle ne concerne que le voisinage de cette station. La demande de confirmation pour une évacuation exige soit deux stations d'accord, Masina et Kingabwa par exemple, soit une station et un appel de vérification. Un boîtier arraché qui envoie une cote absurde ne suffit pas à vider un quartier.
 
-\section{Trois liaisons, pas trois solutions interchangeables}
+\clearpage
+\section{Tableau comparatif de trois technologies de communication}
 \label{sec:tech}
 
-Le chemin qui va du capteur à la passerelle, et le chemin qui va de la passerelle aux personnes, ne sont pas le même problème. Les mettre dans un seul tableau sert à refuser l'idée qu'une technologie unique couvrirait les deux. Je compare LoRaWAN, le NB-IoT et le GSM utilisé pour le SMS. Le tableau~\ref{tab:tech} tient sur les critères qui comptent ici~: la portée dans ce tissu urbain, l'énergie, la dépendance à un opérateur, le coût qui revient chaque mois, le comportement sous l'orage, et le cadre radio.
+L'énoncé demande un tableau comparatif de trois technologies de communication. Je compare LoRaWAN, le NB-IoT et le GSM via SMS~\cite{lora,uit2018}, parce que le pilote a deux liaisons distinctes~: remonter une cote depuis le lit, puis joindre un téléphone déjà présent dans le quartier. Le tableau~\ref{tab:tech} les confronte critère par critère.
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
-\footnotesize
-\renewcommand{\arraystretch}{1.22}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.25cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\scriptsize
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{2.85cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
 \toprule
 Critère & LoRaWAN & NB-IoT & GSM / SMS \\
 \midrule
-Portée utile à Kinshasa & Un à trois kilomètres en bâti dense. Davantage si l'antenne est dégagée. À mesurer sur place. & Celle du LTE de l'opérateur, seulement si le service objet est vraiment ouvert. & Bonne dans la ville, inégale à l'intérieur et sous l'orage. \\
+Nature & LPWAN privé, topologie en étoile (nœuds $\rightarrow$ passerelle). & LPWAN cellulaire (3GPP), sur réseau d'opérateur. & Réseau mobile classique~; le SMS sert de canal d'alerte. \\
 \addlinespace
-Énergie au bord de l'eau & Très faible. Le nœud dort presque tout le temps. & Faible, mais chaque station porte un modem et une puce. & Trop forte pour un modem laissé au-dessus du lit. \\
+Standard & LoRa Alliance~\cite{lora}. & 3GPP (NB-IoT). & GSM / 3GPP, service SMS. \\
 \addlinespace
-Qui doit déjà exister & Une passerelle à nous. Pas un service d'opérateur. & Un opérateur qui a activé le NB-IoT sur son réseau. & Un réseau mobile, déjà présent. \\
+Spectre & Bande sub-GHz des dispositifs à courte portée (souvent $\approx$\,868~MHz, Région~1 UIT). Confirmation ARPTC requise~\cite{uit2018,eleos}. & Bandes licenciées LTE de l'opérateur. & Bandes licenciées (800, 900, 1\,800~MHz, etc.)~\cite{arptc2025}. \\
 \addlinespace
-Coût qui revient & La maintenance de la passerelle. Pas d'abonnement par station. & Un abonnement par capteur, douze mois par an. & Acceptable pour une ou deux puces. Absurde pour chaque station. \\
+Portée à Kinshasa & Environ 1--3~km en bâti dense~; plus si l'antenne est dégagée. À mesurer. & Celle du LTE, seulement si le service objet est activé. & Large en ville, inégale à l'intérieur et sous l'orage. \\
 \addlinespace
-Sous la pluie forte & Le lien station--passerelle ne passe pas par le réseau mobile. & Même fragilité que le réseau cellulaire. & Peut couper ou saturer au moment utile. \\
+Débit / charge utile & Faible (octets à quelques centaines d'octets)~: cote, pluie, batterie. & Faible à moyen~: adapté aux objets. & SMS $\approx$\,160 caractères~: message d'alerte bref. \\
 \addlinespace
-Cadre radio & Bande sub-gigahertz des dispositifs à courte portée. À faire confirmer par l'ARPTC. & Bande licenciée de l'opérateur. & Bande licenciée de l'opérateur. \\
+Consommation & Très faible~: le nœud dort presque tout le temps. & Faible, mais modem + SIM par station. & Élevée pour un modem permanent au bord de l'eau. \\
 \addlinespace
-Place dans le pilote & Retenu, entre les trois stations et la maison communale. & Non retenu. & Retenu seulement ensuite, vers les relais. \\
+Latence & Secondes à minutes. Acceptable pour une crue. & Secondes. & Quelques secondes à une minute. \\
+\addlinespace
+Infrastructure & Passerelle(s) installée(s) et entretenue(s) localement. & Couverture NB-IoT + abonnement par objet. & Réseau déjà déployé~; 1--2 puces côté serveur. \\
+\addlinespace
+Coût d'exploitation & Installation et maintenance de la passerelle~; pas d'abonnement par station. & Abonnement mensuel par capteur, toute l'année. & Forfait + SMS pour 1--2 puces~; trop cher par station. \\
+\addlinespace
+Sous orage & Lien local, indépendant du réseau mobile. & Même fragilité que le réseau cellulaire. & Peut saturer ou couper au moment utile~\cite{ifrc2025}. \\
+\addlinespace
+Disponibilité RDC & Possible après vérification ARPTC. & Offre objet commerciale non démontrée à Kinshasa. & Déjà présente (Vodacom, Airtel, Orange, etc.). \\
+\addlinespace
+Adaptation au cas & Bonne pour remonter les mesures~; mauvaise pour joindre un relais. & Possible sur le papier~; dépend d'un service non vérifié. & Mauvaise pour le capteur~; bonne pour joindre les relais. \\
+\addlinespace
+Décision & \textbf{Retenu}~: capteur $\rightarrow$ passerelle. & \textbf{Non retenu} pour ce pilote. & \textbf{Retenu}~: passerelle $\rightarrow$ relais (SMS). \\
 \bottomrule
 \end{tabularx}
-\caption{Trois technologies, deux rôles. LoRaWAN relie la rivière à la passerelle. Le SMS relie la passerelle aux personnes. Le NB-IoT reste une option de papier tant qu'un opérateur ne le démontre pas à Kinshasa.}
+\caption{Tableau comparatif de trois technologies de communication pour l'alerte de proximité à Kinshasa.}
 \label{tab:tech}
 \end{table}
 
-LoRaWAN est un protocole de réseau étendu à basse consommation, en étoile~: les nœuds parlent à une passerelle, ils ne parlent pas entre eux. Il est spécifié par la LoRa Alliance~\cite{lora}. Le nœud émet peu, dort longtemps, et une passerelle peut entendre beaucoup de stations. Je ne reprends pas les dix ou quinze kilomètres annoncés en rase campagne. Dans le bâti de Kinshasa, un à trois kilomètres est une hypothèse honnête, un peu plus si l'antenne est en hauteur sur un bâtiment public, le long du couloir de la rivière. Il faudra le mesurer. Sans cette mesure, le schéma promet une couverture qu'il n'a pas.
+\subsection{Lecture du tableau}
 
-La bande visée est celle des dispositifs à courte portée en dessous du gigahertz, autour de 868~MHz, avec une puissance faible et un temps d'émission limité. C'est le cadre décrit pour une grande partie de la Région~1 de l'UIT, et déjà utilisé pour ce type de réseau dans plusieurs pays d'Afrique~\cite{uit2018}. Une compilation privée indique, pour la RDC, la plage 868--868,6~MHz à 25~mW, avec une limite de facteur d'utilisation~\cite{eleos}. Je ne prends pas cette fiche pour une décision de l'Autorité de régulation de la poste et des télécommunications du Congo. Avant tout achat, la bande, la puissance et l'autorisation éventuelle se vérifient à l'ARPTC. Si l'Autorité impose une autre canalisation, on change la fréquence des modules. On ne change pas l'architecture.
+Le tableau ne sert pas à élire une technologie unique. Il sépare deux rôles. LoRaWAN et le NB-IoT se ressemblent sur le papier~: faible débit, faible consommation, longue portée. Ils divergent sur l'essentiel en RDC. LoRaWAN demande une passerelle à installer, mais ne dépend pas d'une offre commerciale d'opérateur. Le NB-IoT dépend précisément de cette offre. Or une bande LTE attribuée n'est pas un service objet ouvert~\cite{arptc2025}. Retenir le NB-IoT aujourd'hui, ce serait bâtir le pilote sur une hypothèse non démontrée à Kinshasa, plus une carte SIM dans chaque boîtier au bord de l'eau.
 
-Le NB-IoT est une technologie cellulaire du 3GPP, pensée pour les objets~: bonne pénétration dans le bâti, consommation modérée. Elle n'existe dans une ville que si un opérateur l'a activée sur son réseau LTE. Je n'ai pas trouvé d'offre commerciale NB-IoT qui couvre Kinshasa. Les bandes mobiles du pays, elles, sont attribuées, en 800, 900, 1\,800~MHz et au-delà selon les opérateurs~\cite{arptc2025}. Une bande LTE n'est pas un service objet. Retenir le NB-IoT pour ce pilote, ce serait attendre un service non démontré, glisser une carte SIM dans chaque boîtier au bord de l'eau, et payer un abonnement par station. Le tableau le garde parce que la comparaison serait fausse sans lui. Le pilote ne le retient pas.
+Le GSM via SMS n'est pas un concurrent de LoRaWAN sur le même tronçon. Il est mauvais comme lien de capteur~: consommation, vol de puce, coût multiplié, avenir incertain du 2G. Il est bon comme dernier kilomètre humain. Une ou deux puces, dans un bâtiment fermé, joignent des téléphones simples. C'est le seul des trois déjà dans la poche des chefs de quartier.
 
-Le GSM, et le SMS en particulier, est le seul des trois qui soit déjà dans la poche des relais. Il est mauvais comme lien de capteur. Le modem consomme, la puce se vole, l'abonnement se multiplie, et l'on ne construit pas un système de 2026 sur l'idée que le 2G sera là dans dix ans. Il est bon comme dernier pas. Une ou deux puces, dans un bâtiment fermé, joignent des téléphones simples. En avril 2025, l'électricité et l'eau de la ville ont cédé ensemble~\cite{ifrc2025}. Le réseau mobile peut céder aussi. C'est pour cela que la sirène ne dépend pas de lui, et que le SMS n'est pas le seul chemin.
+La résilience sous orage tranche le mélange. En avril 2025, l'électricité et l'eau de Kinshasa ont cédé ensemble~\cite{ifrc2025}. Le réseau mobile peut céder aussi. Le lien LoRaWAN station--passerelle reste local. Le SMS doit être doublé (deux opérateurs) et complété par une sirène locale. Le NB-IoT hériterait de la même fragilité cellulaire.
 
-Le choix est donc mixte. LoRaWAN entre le lit et la maison communale. Le SMS ensuite, vers les personnes. Le NB-IoT pourra remplacer le SMS, ou même le lien des stations, le jour où un opérateur le proposera à Kinshasa avec un tarif d'objet et une couverture vérifiée sous la pluie. Ce jour n'est pas un fait, aujourd'hui.
+La bande LoRaWAN visée est celle des dispositifs à courte portée en dessous du gigahertz, souvent autour de 868~MHz~\cite{uit2018}. Une compilation privée indique, pour la RDC, la plage 868--868,6~MHz à 25~mW~\cite{eleos}. Ce n'est pas une décision de l'ARPTC. Avant tout achat, la bande et la puissance se vérifient auprès de l'Autorité. Si elle impose une autre canalisation, on change la fréquence des modules, pas le choix architectural du tableau~\ref{tab:tech}.
+
+Le choix final est donc mixte. LoRaWAN entre le lit et la maison communale. Le SMS ensuite, vers les personnes. Le NB-IoT pourra remplacer l'un ou l'autre le jour où un opérateur le proposera à Kinshasa avec un tarif d'objet et une couverture vérifiée sous la pluie. Ce jour n'est pas un fait, aujourd'hui.
 
 \section{Deux risques au moment du déploiement}
 \label{sec:risques}
